@@ -140,10 +140,10 @@ const MigrateValidatorStep = ({ onBack, onComplete }) => {
             onChange={(e) => setSecureUrl(e.target.value)}
             error={Boolean(fieldErrors.secureUrl)}
             helperText={
-              fieldErrors.secureUrl ||
-              (allowsInsecureUrl()
-                ? "The address of the validator you're migrating."
-                : "The address of the validator you're migrating. Must be https://.")
+          //    fieldErrors.secureUrl ||
+           //   (allowsInsecureUrl()
+             //   ? "The address of the validator you're migrating."
+              //  : "The address of the validator you're migrating. Must be https://.")
             }
             disabled={fieldsDisabled}
             autoComplete="off"
