@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Autheo brand chrome -->
+    <meta name="theme-color" content="#0B0C17" />
+    <meta name="color-scheme" content="dark light" />
+    <meta name="application-name" content="Autheo Validator" />
+    <meta name="apple-mobile-web-app-title" content="Autheo Validator" />
+
+    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" sizes="any" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="%PUBLIC_URL%/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="%PUBLIC_URL%/favicon-16x16.png"
+    />
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/apple-touch-icon.png" />
+    <link rel="manifest" href="%PUBLIC_URL%/site.webmanifest" />
+
+    <meta
+      name="description"
+      content="Run and manage Autheo validator nodes. Stake THEO, monitor node health and uptime, and participate in consensus on the Autheo network."
+    />
+
+    <!-- Open Graph / social preview -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Autheo Validator" />
+    <meta
+      property="og:title"
+      content="Autheo Validator | Run & Manage Validator Nodes on Autheo"
+    />
+    <meta
+      property="og:description"
+      content="Run and manage Autheo validator nodes. Stake THEO, monitor node health and uptime, and participate in consensus on the Autheo network."
+    />
+    <meta property="og:image" content="%PUBLIC_URL%/og-image.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="Autheo Validator | Run & Manage Validator Nodes on Autheo"
+    />
+    <meta
+      name="twitter:description"
+      content="Run and manage Autheo validator nodes. Stake THEO, monitor node health and uptime, and participate in consensus on the Autheo network."
+    />
+    <meta name="twitter:image" content="%PUBLIC_URL%/og-image.png" />
+
+    <!-- Inter is the Autheo type family -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+      rel="stylesheet"
+    />
+
+    <base href="/" />
+
+    <title>Autheo Validator | Run &amp; Manage Validator Nodes on Autheo</title>
+
+    <!-- Paint the Autheo ground before React mounts so there is no white flash.
+         Mirrors --surface-base in src/styles/_autheo-tokens.scss. -->
+    <style>
+      html,
+      body {
+        margin: 0;
+        background-color: #0b0c17;
+      }
+      html[data-theme="light"],
+      html[data-theme="light"] body {
+        background-color: #ffffff;
+      }
+    </style>
+  </head>
+
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-60D0QPKYR0"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+
+      gtag("config", "G-60D0QPKYR0");
+    </script>
+  </body>
+</html>

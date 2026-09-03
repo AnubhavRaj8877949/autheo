@@ -1,0 +1,995 @@
+/* =====================================================================
+   AUTHEO COMPONENT LAYER
+   ---------------------------------------------------------------------
+   Theme-agnostic component styling for the Autheo Validator app. Every
+   rule here consumes tokens from _autheo-tokens.scss - no brand colour
+   is written literally.
+
+   This layer replaces the previous per-theme accent overrides so that a
+   single vocabulary drives light and dark surfaces alike.
+   ===================================================================== */
+
+/* ------------------------------------------------------------------
+   Base surface & type
+   ------------------------------------------------------------------ */
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background-color: var(--surface-base) !important;
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-size: var(--font-size-sm);
+  line-height: var(--leading-normal);
+  transition: background-color var(--duration-base) var(--ease-standard),
+    color var(--duration-base) var(--ease-standard);
+}
+
+/* Autheo type scale — headings are tight and slightly negative-tracked,
+   matching autheo.com's display treatment. */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.MuiTypography-h1,
+.MuiTypography-h2,
+.MuiTypography-h3,
+.MuiTypography-h4 {
+  font-family: var(--font-sans);
+  letter-spacing: var(--tracking-tight);
+  line-height: var(--leading-tight);
+}
+
+/* Brand accent for emphasised inline text */
+.autheo-accent,
+.text-brand {
+  color: var(--brand-primary-text);
+}
+
+/* A single reusable Autheo hairline — used at the top of hero panels */
+.autheo-hairline {
+  height: 1px;
+  width: 100%;
+  background: var(--brand-gradient-hairline);
+  border: 0;
+}
+
+/* ------------------------------------------------------------------
+   Buttons
+   ------------------------------------------------------------------
+   The app funnels every CTA through this selector group (already used by
+   MUI buttons, the wallet pill, swal actions and the "view all" links).
+   ------------------------------------------------------------------ */
+.headermetaBtn,
+.notDiabled a,
+.MuiButton-root,
+.editbutton,
+.swal2-confirm,
+.view-all {
+  font-family: var(--font-sans);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--tracking-normal);
+  border-radius: var(--radius-pill);
+  transition: background-color var(--duration-fast) var(--ease-out),
+    border-color var(--duration-fast) var(--ease-out),
+    color var(--duration-fast) var(--ease-out),
+    box-shadow var(--duration-fast) var(--ease-out);
+}
+
+/* Secondary / neutral button (the default MUI button in this app) */
+.MuiButton-root {
+  background-color: var(--surface-elevated) !important;
+  color: var(--text-primary) !important;
+  border: 1px solid var(--border-default) !important;
+  box-shadow: none;
+
+  &:hover {
+    background-color: var(--surface-overlay) !important;
+    border-color: var(--border-strong) !important;
+  }
+
+  &.Mui-disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+}
+
+/* Primary CTA — Autheo teal */
+.MuiButton-contained.primary-btn,
+.MuiButton-containedPrimary,
+.headermetaBtn,
+.swal2-confirm,
+.genesis-initiate-btn {
+  background: var(--brand-primary) !important;
+  background-image: none !important;
+  color: var(--brand-on-primary) !important;
+  border: 1px solid transparent !important;
+
+  svg path {
+    stroke: var(--brand-on-primary) !important;
+  }
+
+  &:hover {
+    background: var(--brand-primary-strong) !important;
+    color: var(--brand-on-primary) !important;
+    box-shadow: var(--brand-glow);
+
+    svg path {
+      stroke: var(--brand-on-primary) !important;
+    }
+  }
+
+  &.Mui-disabled,
+  &:disabled {
+    background: var(--surface-elevated) !important;
+    color: var(--text-muted) !important;
+    box-shadow: none;
+  }
+}
+
+/* Tertiary "view all" style */
+.view-all,
+.viewAllBtn {
+  background-color: transparent !important;
+  border: 1px solid var(--border-default) !important;
+  color: var(--brand-primary-text) !important;
+
+  &:hover {
+    background-color: var(--brand-primary-soft) !important;
+    border-color: var(--brand-primary-border) !important;
+    color: var(--brand-primary-text) !important;
+  }
+}
+
+.swal2-cancel {
+  background-color: transparent !important;
+  border: 1px solid var(--border-default) !important;
+  color: var(--text-primary) !important;
+
+  &:hover {
+    background-color: var(--surface-overlay) !important;
+    color: var(--text-primary) !important;
+  }
+}
+
+/* Keyboard focus is brand-coloured and never removed */
+a:focus-visible,
+button:focus-visible,
+[role="button"]:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+.MuiButtonBase-root:focus-visible {
+  outline: 2px solid var(--brand-primary);
+  outline-offset: 2px;
+}
+
+/* ------------------------------------------------------------------
+   Links
+   ------------------------------------------------------------------ */
+a {
+  color: var(--theme-text-link);
+  transition: color var(--duration-fast) var(--ease-out);
+
+  &:hover {
+    color: var(--brand-primary-text) !important;
+  }
+}
+
+.text-hover:hover,
+.valAddress:hover,
+.hoverTrans:hover {
+  color: var(--brand-primary-text) !important;
+}
+
+/* ------------------------------------------------------------------
+   Navigation (header + drawer)
+   ------------------------------------------------------------------ */
+.headerLinks .link {
+  position: relative;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--text-secondary) !important;
+  padding-bottom: var(--space-1);
+  transition: color var(--duration-fast) var(--ease-out);
+
+  &:hover {
+    color: var(--text-primary) !important;
+  }
+
+  /* Active state is a brand underline, not just a colour change, so it
+     survives high-contrast modes and colour-blind viewing. */
+  &.active {
+    color: var(--brand-primary-text) !important;
+
+    &::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: -6px;
+      height: 2px;
+      border-radius: var(--radius-pill);
+      background: var(--brand-primary);
+    }
+  }
+}
+
+.headerWrapper {
+  background-color: var(--surface-base) !important;
+  border-bottom: 1px solid var(--border-subtle);
+  backdrop-filter: blur(12px);
+}
+
+/* Wallet pill */
+.wallet-header-btn {
+  border-radius: var(--radius-pill);
+
+  &:hover {
+    border-color: var(--brand-primary-border);
+  }
+
+  &__avatar {
+    background: var(--brand-primary);
+    color: var(--brand-on-primary);
+  }
+}
+
+/* Logo lockup — the official Autheo wordmark is already teal-on-dark, so
+   it is never recoloured, only sized. */
+.logo {
+  height: 30px;
+  width: auto;
+  display: block;
+
+  @media (max-width: 767px) {
+    height: 24px;
+  }
+}
+
+/* ------------------------------------------------------------------
+   Cards / panels
+   ------------------------------------------------------------------ */
+.MuiPaper-root {
+  background-color: var(--surface-raised);
+  color: var(--text-primary);
+  background-image: none;
+}
+
+.vaildator-card,
+.autheo-panel {
+  background-color: var(--surface-raised) !important;
+  border: 1px solid var(--border-default) !important;
+  border-radius: var(--radius-2xl);
+}
+
+/* ------------------------------------------------------------------
+   Tables
+   ------------------------------------------------------------------ */
+.common-table {
+  .MuiTableContainer-root {
+    background-color: var(--surface-raised) !important;
+    border: 1px solid var(--border-default) !important;
+    border-radius: var(--radius-xl);
+  }
+
+  .MuiTableHead-root .MuiTableCell-root {
+    background-color: var(--surface-elevated);
+    color: var(--text-secondary);
+    font-size: var(--font-size-caption);
+    font-weight: var(--font-weight-semibold);
+    letter-spacing: var(--tracking-wider);
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--border-default);
+    white-space: nowrap;
+  }
+
+  .MuiTableBody-root .MuiTableRow-root {
+    transition: background-color var(--duration-fast) var(--ease-out);
+
+    &:hover {
+      background-color: var(--theme-bg-table-row-hover);
+    }
+  }
+
+  .MuiTableCell-root {
+    border-bottom: 1px solid var(--border-subtle);
+    color: var(--text-primary);
+    font-size: var(--font-size-sm);
+  }
+
+  /* Tables stay usable on small screens by scrolling inside their own
+     container rather than shrinking the type. */
+  .MuiTableContainer-root {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* Empty state */
+.common-table .Nodata,
+.autheo-empty {
+  background-color: var(--surface-raised) !important;
+  border: 1px dashed var(--border-default) !important;
+  border-radius: var(--radius-xl);
+  color: var(--text-secondary) !important;
+  text-align: center;
+  padding: var(--space-10) var(--space-6);
+  font-size: var(--font-size-sm);
+}
+
+/* ------------------------------------------------------------------
+   Inputs / selects
+   ------------------------------------------------------------------ */
+.MuiOutlinedInput-root {
+  background-color: var(--surface-elevated) !important;
+  color: var(--text-primary) !important;
+  border-radius: var(--radius-lg);
+  transition: box-shadow var(--duration-fast) var(--ease-out);
+
+  fieldset {
+    border-color: var(--border-default) !important;
+  }
+
+  &:hover fieldset {
+    border-color: var(--border-strong) !important;
+  }
+
+  &.Mui-focused {
+    box-shadow: 0 0 0 2px var(--brand-focus-ring);
+
+    fieldset {
+      border-color: var(--brand-primary) !important;
+    }
+  }
+
+  &.Mui-error fieldset {
+    border-color: var(--status-error) !important;
+  }
+}
+
+.MuiInputBase-input {
+  color: var(--text-primary) !important;
+  font-size: var(--font-size-sm);
+
+  &::placeholder {
+    color: var(--text-muted) !important;
+    opacity: 1;
+  }
+}
+
+.MuiInputLabel-root {
+  color: var(--text-secondary);
+
+  &.Mui-focused {
+    color: var(--brand-primary-text);
+  }
+}
+
+.MuiInputLabel-asterisk {
+  color: var(--status-error);
+}
+
+.srchInput input {
+  color: var(--text-primary) !important;
+  background: transparent;
+}
+
+/* ------------------------------------------------------------------
+   Tabs
+   ------------------------------------------------------------------ */
+.MuiTab-root {
+  color: var(--text-secondary) !important;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  text-transform: none;
+
+  &.Mui-selected {
+    color: var(--brand-primary-text) !important;
+    background-color: var(--brand-primary-soft) !important;
+  }
+}
+
+.MuiTabs-indicator {
+  background-color: var(--brand-primary) !important;
+  height: 2px;
+}
+
+/* ------------------------------------------------------------------
+   Pagination
+   ------------------------------------------------------------------ */
+.MuiPaginationItem-root {
+  color: var(--text-secondary) !important;
+  border: 1px solid var(--border-subtle) !important;
+  border-radius: var(--radius-md) !important;
+  font-size: var(--font-size-xs);
+
+  &:hover {
+    background-color: var(--surface-overlay) !important;
+    color: var(--text-primary) !important;
+  }
+
+  &.Mui-selected {
+    background-color: var(--brand-primary-soft-strong) !important;
+    border-color: var(--brand-primary-border) !important;
+    color: var(--brand-primary-text) !important;
+  }
+}
+
+/* `.Mui-selected` is also used by menus/tabs elsewhere in the app; keep it
+   on-brand but subtle rather than a solid accent block. */
+.Mui-selected {
+  background-color: var(--brand-primary-soft-strong);
+  color: var(--brand-primary-text);
+}
+
+/* ------------------------------------------------------------------
+   Menus / dropdowns
+   ------------------------------------------------------------------ */
+.MuiMenu-paper,
+.MuiMenu-list {
+  background-color: var(--surface-elevated) !important;
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-lg);
+}
+
+.MuiMenuItem-root {
+  color: var(--text-primary) !important;
+  font-size: var(--font-size-sm);
+
+  &:hover {
+    background-color: var(--brand-primary-soft) !important;
+    color: var(--brand-primary-text) !important;
+  }
+}
+
+/* ------------------------------------------------------------------
+   Modals / dialogs / alerts
+   ------------------------------------------------------------------ */
+.MuiDialog-paper {
+  background-color: var(--surface-raised) !important;
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-2xl) !important;
+  color: var(--text-primary) !important;
+  box-shadow: var(--shadow-modal);
+}
+
+.MuiBackdrop-root {
+  background-color: rgba(11, 12, 23, 0.65);
+  backdrop-filter: blur(6px);
+}
+
+.swal2-popup {
+  background-color: var(--surface-raised) !important;
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-2xl);
+  color: var(--text-primary) !important;
+}
+
+.swal2-title {
+  color: var(--text-primary) !important;
+  letter-spacing: var(--tracking-tight);
+}
+
+.swal2-html-container {
+  color: var(--text-secondary) !important;
+}
+
+/* Inline alert / error banner */
+.errorMsg,
+.Mui-error,
+.MuiFormHelperText-root.Mui-error {
+  color: var(--status-error) !important;
+  font-size: var(--font-size-xs) !important;
+  font-weight: var(--font-weight-medium);
+}
+
+.autheo-alert {
+  display: flex;
+  gap: var(--space-3);
+  align-items: flex-start;
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-default);
+  background: var(--surface-elevated);
+  font-size: var(--font-size-sm);
+  color: var(--text-primary);
+
+  &--info {
+    border-color: var(--status-info);
+    background: var(--status-info-soft);
+  }
+  &--success {
+    border-color: var(--status-success);
+    background: var(--status-success-soft);
+  }
+  &--warning {
+    border-color: var(--status-warning);
+    background: var(--status-warning-soft);
+  }
+  &--error {
+    border-color: var(--status-error);
+    background: var(--status-error-soft);
+  }
+}
+
+/* ------------------------------------------------------------------
+   Tooltips
+   ------------------------------------------------------------------ */
+.MuiTooltip-tooltip {
+  background-color: var(--surface-overlay) !important;
+  border: 1px solid var(--border-default);
+  color: var(--text-primary) !important;
+  border-radius: var(--radius-lg) !important;
+  font-size: var(--font-size-xs) !important;
+  box-shadow: var(--shadow-md);
+  max-width: 320px;
+}
+
+.MuiTooltip-arrow {
+  color: var(--surface-overlay) !important;
+}
+
+/* ------------------------------------------------------------------
+   Toasts
+   ------------------------------------------------------------------ */
+.Toastify__toast {
+  background: var(--surface-elevated) !important;
+  color: var(--text-primary) !important;
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-xl) !important;
+  font-family: var(--font-sans);
+  font-size: var(--font-size-sm);
+  box-shadow: var(--shadow-lg);
+}
+
+.Toastify__toast--success {
+  border-left: 3px solid var(--status-success);
+}
+.Toastify__toast--error {
+  border-left: 3px solid var(--status-error);
+}
+.Toastify__toast--warning {
+  border-left: 3px solid var(--status-warning);
+}
+.Toastify__toast--info {
+  border-left: 3px solid var(--status-info);
+}
+.Toastify__close-button {
+  color: var(--text-secondary);
+  opacity: 1;
+}
+
+/* ------------------------------------------------------------------
+   VALIDATOR STATUS SYSTEM
+   ------------------------------------------------------------------
+   Every validator/transaction state gets a badge with three independent
+   signals - colour, a shape/dot treatment and the state's own label -
+   so status is never conveyed by colour alone.
+   ------------------------------------------------------------------ */
+.autheo-status {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-pill);
+  border: 1px solid currentColor;
+  background: var(--status-neutral-soft);
+  color: var(--status-neutral);
+  font-size: var(--font-size-caption);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  white-space: nowrap;
+  line-height: var(--leading-tight);
+
+  /* A status badge always hugs its label. It is dropped into table cells,
+     flex rows and grid tracks all over the app, so it pins its own box:
+     without this a stretching parent turns it into a full-width pill that
+     reads as a button. */
+  width: max-content;
+  max-width: 100%;
+  flex: 0 0 auto;
+  align-self: center;
+  box-sizing: border-box;
+
+  /* It is a state readout, not a control - never show a pointer. */
+  cursor: default;
+
+  /* The dot carries the redundant non-colour cue */
+  &::before {
+    content: "";
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: currentColor;
+    flex-shrink: 0;
+  }
+
+  &--active,
+  &--healthy,
+  &--bonded {
+    color: var(--status-success);
+    background: var(--status-success-soft);
+  }
+
+  /* Active nodes pulse — a live, "participating in consensus" cue */
+  &--active::before,
+  &--healthy::before {
+    box-shadow: 0 0 0 0 currentColor;
+    animation: autheo-pulse 2s var(--ease-standard) infinite;
+  }
+
+  &--pending,
+  &--syncing,
+  &--processing,
+  &--maintenance,
+  &--warning,
+  &--unbonding {
+    color: var(--status-warning);
+    background: var(--status-warning-soft);
+  }
+
+  /* Syncing gets a spinning ring instead of a dot */
+  &--syncing::before {
+    background: transparent;
+    border: 2px solid currentColor;
+    border-top-color: transparent;
+    width: 9px;
+    height: 9px;
+    animation: autheo-spin 0.9s linear infinite;
+  }
+
+  /* Pending is a hollow dot */
+  &--pending::before,
+  &--maintenance::before {
+    background: transparent;
+    box-shadow: inset 0 0 0 2px currentColor;
+  }
+
+  &--offline,
+  &--inactive,
+  &--jailed,
+  &--deactivating,
+  &--error,
+  &--failed {
+    color: var(--status-error);
+    background: var(--status-error-soft);
+  }
+
+  /* Offline/error is a square, readable without colour */
+  &--offline::before,
+  &--inactive::before,
+  &--error::before,
+  &--failed::before,
+  &--jailed::before,
+  &--deactivating::before {
+    border-radius: 1px;
+  }
+
+  &--info {
+    color: var(--status-info);
+    background: var(--status-info-soft);
+  }
+}
+
+@keyframes autheo-pulse {
+  0% {
+    box-shadow: 0 0 0 0 currentColor;
+    opacity: 1;
+  }
+  70% {
+    box-shadow: 0 0 0 5px transparent;
+    opacity: 0.7;
+  }
+  100% {
+    box-shadow: 0 0 0 0 transparent;
+    opacity: 1;
+  }
+}
+
+@keyframes autheo-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Legacy status text classes, retinted through tokens */
+.status-active,
+.status-success {
+  color: var(--status-success) !important;
+}
+
+.status-waiting,
+.status-processing,
+.status-pending {
+  color: var(--status-warning) !important;
+}
+
+.status-inactive,
+.status-failed {
+  color: var(--status-error) !important;
+}
+
+/* ------------------------------------------------------------------
+   Badges
+   ------------------------------------------------------------------ */
+.autheo-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: 2px var(--space-2);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-caption);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  background: var(--brand-primary-soft-strong);
+  color: var(--brand-primary-text);
+  border: 1px solid var(--brand-primary-border);
+
+  &--gold {
+    background: var(--brand-secondary-soft);
+    color: var(--brand-secondary-text);
+    border-color: var(--brand-secondary-border);
+  }
+
+  &--neutral {
+    background: var(--surface-elevated);
+    color: var(--text-secondary);
+    border-color: var(--border-default);
+  }
+}
+
+/* ------------------------------------------------------------------
+   Loading states
+   ------------------------------------------------------------------ */
+.MuiSkeleton-root {
+  background-color: var(--surface-elevated) !important;
+  border-radius: var(--radius-md);
+
+  &::after {
+    background: linear-gradient(
+      90deg,
+      transparent,
+      var(--brand-primary-soft),
+      transparent
+    ) !important;
+  }
+}
+
+.MuiCircularProgress-root {
+  color: var(--brand-primary) !important;
+}
+
+.MuiLinearProgress-root {
+  background-color: var(--surface-elevated) !important;
+}
+.MuiLinearProgress-bar {
+  background-color: var(--brand-primary) !important;
+}
+
+/* ------------------------------------------------------------------
+   Dividers & scrollbars
+   ------------------------------------------------------------------ */
+.MuiDivider-root,
+.custom-divider {
+  border-color: var(--border-subtle) !important;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background-color: var(--border-strong);
+  border-radius: var(--radius-pill);
+
+  &:hover {
+    background-color: var(--brand-primary-border);
+  }
+}
+
+/* ------------------------------------------------------------------
+   Reduced motion
+   ------------------------------------------------------------------ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ------------------------------------------------------------------
+   DASHBOARD — VALIDATOR OVERVIEW
+   ------------------------------------------------------------------
+   Hierarchy: page title -> one primary signal (node status) -> the
+   validator's own numbers -> network/participation metrics -> activity.
+   ------------------------------------------------------------------ */
+.dashboard-page {
+  &__header {
+    padding: var(--space-6) 0 var(--space-5);
+  }
+
+  &__title {
+    font-size: var(--font-size-h3);
+    font-weight: var(--font-weight-bold);
+    letter-spacing: var(--tracking-tight);
+    color: var(--text-primary);
+    margin: 0 0 var(--space-2);
+
+    @media (max-width: 767px) {
+      font-size: var(--font-size-h4);
+    }
+  }
+
+  &__subtitle {
+    color: var(--text-secondary) !important;
+    font-size: var(--font-size-sm);
+    margin: 0;
+    max-width: 60ch;
+  }
+}
+
+/* The status panel is the page's primary signal, so it carries the one
+   brand-coloured rail on the screen. */
+.validator-overview .validator-status {
+  position: relative;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 2px;
+    background: var(--brand-gradient-hairline);
+    z-index: 1;
+  }
+}
+
+.validator-status__headline {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+  justify-content: flex-start !important;
+}
+
+.validator-status__label {
+  font-size: var(--font-size-lg) !important;
+  font-weight: var(--font-weight-semibold) !important;
+  color: var(--text-secondary) !important;
+  letter-spacing: var(--tracking-normal);
+  margin: 0 !important;
+}
+
+.validator-status__empty {
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+}
+
+.validator-status__card {
+  gap: var(--space-4);
+}
+
+/* Section headings shared by the dashboard sections */
+.section-title {
+  font-size: var(--font-size-xl) !important;
+  font-weight: var(--font-weight-bold) !important;
+  letter-spacing: var(--tracking-tight);
+  color: var(--text-primary) !important;
+  margin: 0 !important;
+
+  @media (max-width: 767px) {
+    font-size: var(--font-size-lg) !important;
+  }
+}
+
+.recentHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-4);
+  width: 100%;
+  padding-bottom: var(--space-3);
+
+  @media (max-width: 480px) {
+    flex-wrap: wrap;
+  }
+}
+
+/* ------------------------------------------------------------------
+   LOGO LOCKUP
+   ------------------------------------------------------------------
+   The official Autheo wordmark ships in brand teal, designed for the dark
+   "dazzle" ground. Rather than recolouring or inverting it on light
+   surfaces (which would distort the mark), the light theme gives it its
+   own dazzle plate so the official lockup is always shown as-issued.
+   ------------------------------------------------------------------ */
+[data-theme="light"] {
+  .headerLeft img.logo,
+  .app-footer img.logo,
+  .MuiDrawer-paper img.logo {
+    background: var(--autheo-dazzle);
+    border-radius: var(--radius-md);
+    padding: var(--space-2) var(--space-3);
+    box-sizing: content-box;
+  }
+}
+
+/* ------------------------------------------------------------------
+   RESPONSIVE GUARDS
+   ------------------------------------------------------------------
+   The page body must never scroll horizontally - wide content (tables,
+   code, addresses) scrolls inside its own container instead.
+   ------------------------------------------------------------------ */
+html,
+body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+.MuiTableContainer-root {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* The app shell is laid out at a fixed 1440px on desktop; below that it
+   must fall back to the viewport instead of overflowing. */
+.MuiContainer-root {
+  max-width: 100% !important;
+
+  @media (max-width: 1499px) {
+    width: 100% !important;
+  }
+}
+
+/* Long hashes / bech32 addresses wrap instead of pushing the layout wide */
+.valAddress,
+.valadd,
+.copyText,
+.recentHash {
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 767px) {
+  .blockdd,
+  .blockdds,
+  .valadd,
+  .valAddress,
+  .recentHash {
+    min-width: 0 !important;
+  }
+}
+
+/* Dialogs get viewport-relative padding on small screens */
+@media (max-width: 600px) {
+  .MuiDialog-paper {
+    margin: var(--space-4) !important;
+    width: calc(100% - var(--space-8)) !important;
+    max-width: calc(100% - var(--space-8)) !important;
+  }
+
+  .swal2-popup {
+    padding: var(--space-5) !important;
+  }
+}
+
+/* Status badges stay on one line but shrink their type on very small screens */
+@media (max-width: 400px) {
+  .autheo-status {
+    font-size: 11px;
+    padding: 2px var(--space-2);
+  }
+}

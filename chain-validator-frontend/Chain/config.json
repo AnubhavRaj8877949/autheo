@@ -1,0 +1,42 @@
+{
+    "chainId": "autheo_2127-1",
+    "chainName": "Autheo",
+    "rpc": "http://50.30.32.170:26657",
+    "rest": "http://50.30.32.170:1317",
+    "stakeCurrency": {
+        "coinDenom": "THEO",
+        "coinMinimalDenom": "aauth",
+        "coinDecimals": 18
+    },
+    "bip44": {
+        "coinType": 60
+    },
+    "bech32Config": {
+        "bech32PrefixAccAddr": "autheo",
+        "bech32PrefixAccPub": "autheopub",
+        "bech32PrefixValAddr": "autheovaloper",
+        "bech32PrefixValPub": "autheovaloperpub",
+        "bech32PrefixConsAddr": "autheovalcons",
+        "bech32PrefixConsPub": "autheovalconspub"
+    },
+    "currencies": [
+        {
+            "coinDenom": "THEO",
+            "coinMinimalDenom": "aauth",
+            "coinDecimals": 18
+        }
+    ],
+    "feeCurrencies": [
+        {
+            "coinDenom": "THEO",
+            "coinMinimalDenom": "aauth",
+            "coinDecimals": 18,
+            "gasPriceStep": {
+                "low": 1000000000,
+                "average": 1500000000,
+                "high": 2000000000
+            }
+        }
+    ],
+    "features": ["eth-address-gen", "eth-key-sign"]
+}

@@ -1,0 +1,32 @@
+.profiledata {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.profiledata p {
+  max-width: 200px;
+  width: 100%;
+}
+.profiledata .addres-input {
+  max-width: 400px;
+  width: 1000%;
+  background-color: var(--theme-bg-input);
+}
+@media (max-width: 767px) {
+  .profiledata {
+    gap: 10px;
+  }
+  .profiledata p {
+    width: 108px;
+    max-width: unset;
+    white-space: nowrap;
+  }
+}
+.transparentbtn {
+  background-color: var(--surface-raised);
+}
+.transparentbtn:hover {
+  background-color: var(--brand-primary) !important;
+  color: var(--brand-on-primary) !important;
+  opacity: 1;
+}

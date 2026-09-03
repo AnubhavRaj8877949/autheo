@@ -1,0 +1,263 @@
+# =============================================================================
+# Autheo stack — chain-native-indexer, chain-native-api-service,
+#                chain-validator-frontend + Postgres / Redis / RabbitMQ
+#
+# Chain: autheo_2127-1  (bond denom "aauth", bech32 prefix "autheo", EVM 2127)
+#
+# Usage:
+#   docker compose up -d --build
+#   docker compose logs -f indexer api
+#   docker compose down            # keeps data
+#   docker compose down -v         # wipes Postgres/Redis/RabbitMQ volumes
+#
+# Tunables live in ./.env (next to this file). See .env.compose.example.
+# =============================================================================
+
+name: autheo
+
+x-node-logging: &default-logging
+  driver: json-file
+  options:
+    max-size: "10m"
+    max-file: "3"
+
+services:
+  # ---------------------------------------------------------------- Postgres --
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-autheo}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in .env}
+      POSTGRES_DB: ${POSTGRES_DB:-native_indexer_autheo}
+      # deterministic collation so index ordering does not drift between hosts
+      POSTGRES_INITDB_ARGS: "--encoding=UTF8 --locale=C"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    ports:
+      # bound to loopback: reachable from the host for psql, not from the LAN
+      - "127.0.0.1:${POSTGRES_HOST_PORT:-5432}:5432"
+    healthcheck:
+      test:
+        ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-autheo} -d ${POSTGRES_DB:-native_indexer_autheo}"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 20s
+    logging: *default-logging
+
+  # ------------------------------------------------------------------- Redis --
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    command:
+      - redis-server
+      - --appendonly
+      - "yes"
+      - --requirepass
+      - ${REDIS_PASSWORD:?set REDIS_PASSWORD in .env}
+    volumes:
+      - redis-data:/data
+    ports:
+      - "127.0.0.1:${REDIS_HOST_PORT:-6379}:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "${REDIS_PASSWORD}", "--no-auth-warning", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 10s
+    logging: *default-logging
+
+  # ---------------------------------------------------------------- RabbitMQ --
+  rabbitmq:
+    image: rabbitmq:3.13-management-alpine
+    restart: unless-stopped
+    environment:
+      # NOTE: the built-in "guest" user may only connect over loopback, so a
+      # real user is required for container-to-container access.
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER:-autheo}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD:?set RABBITMQ_PASSWORD in .env}
+      RABBITMQ_DEFAULT_VHOST: "/"
+    volumes:
+      - rabbitmq-data:/var/lib/rabbitmq
+    ports:
+      - "127.0.0.1:${RABBITMQ_HOST_PORT:-5672}:5672"
+      - "127.0.0.1:${RABBITMQ_MGMT_PORT:-15672}:15672"   # management UI
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "check_running"]
+      interval: 15s
+      timeout: 10s
+      retries: 12
+      start_period: 40s
+    logging: *default-logging
+
+  # ------------------------------------------------------- Prisma migrations --
+  # One-shot job. The indexer and the api-service share ONE database and their
+  # prisma schemas are identical, but they keep separate migration histories —
+  # the indexer's is the superset, so it is the single schema owner here.
+  # Do NOT also run migrations from the api-service: it would fight over
+  # _prisma_migrations. (Its runtime image has no prisma CLI anyway.)
+  migrate:
+    build:
+      context: ./chain-native-indexer
+      target: deps
+    command:
+      - sh
+      - -c
+      - "./node_modules/.bin/prisma migrate deploy --schema ./prisma/schema.prisma"
+    environment:
+      DATABASE_URL: &database_url >-
+        postgresql://${POSTGRES_USER:-autheo}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-native_indexer_autheo}?schema=public
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: "no"
+    logging: *default-logging
+
+  # -------------------------------------------------------------- Indexer ----
+  # Consumes the chain (RPC + WS), writes Postgres, publishes to Redis/Rabbit.
+  indexer:
+    build:
+      context: ./chain-native-indexer
+      target: runner
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      PORT: 8001
+      SECRET_KEY: ${INDEXER_SECRET_KEY:-autheo}
+      SALT_VALUE: "10"
+
+      # --- chain (autheo_2127-1) ---
+      CHAIN_NAME: autheo
+      PROJECT_NAME: autheo
+      ADDRESS_PREFIX: autheo
+      # NOTE: the code uses TOKEN_SYMBOL as the on-chain BASE DENOM
+      # (bank/staking queries), not as a display symbol. Display symbol is
+      # THEO and lives in the frontend.
+      TOKEN_SYMBOL: aauth
+      TOKEN_CURRENCY: USD
+      NATIVE_RPC_HTTP_URL: http://${CHAIN_NODE_IP:?set CHAIN_NODE_IP in .env}:26657/
+      NATIVE_RPC_WS_URL: ws://${CHAIN_NODE_IP}:26657
+      NATIVE_SWAGGER_HTTP_URL: http://${CHAIN_NODE_IP}:1317/
+
+      # --- infra (service names, not localhost) ---
+      DATABASE_URL: *database_url
+      REDIS_URL: redis://:${REDIS_PASSWORD}@redis:6379
+      RABBITMQ_URL: amqp://${RABBITMQ_USER:-autheo}:${RABBITMQ_PASSWORD}@rabbitmq:5672
+
+      # --- price feed (CoinMarketCap) ---
+      COIN_MARKET_API_KEY: ${COIN_MARKET_API_KEY:-}
+      COIN_MARKET_API_PATH: https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest
+
+      # --- feature flags / misc ---
+      CATCHUP_DISABLED: ${CATCHUP_DISABLED:-0}
+      TTL_TIME_FOR_REWARDS: "4"
+      WS_CORS_ORIGINS: ${WS_CORS_ORIGINS:-*}
+      LOG_LEVEL: ${LOG_LEVEL:-info}
+    ports:
+      - "${INDEXER_HOST_PORT:-8001}:8001"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
+    healthcheck:
+      # no /health route on the indexer, so probe the socket it listens on
+      test:
+        - CMD
+        - node
+        - -e
+        - "require('net').connect(8001,'127.0.0.1').on('connect',()=>process.exit(0)).on('error',()=>process.exit(1))"
+      interval: 20s
+      timeout: 5s
+      retries: 6
+      start_period: 30s
+    logging: *default-logging
+
+  # ------------------------------------------------------------ API service --
+  # Read path: serves the frontend from Postgres + Redis. Also talks to the
+  # chain directly for supply/inflation/APR.
+  api:
+    build:
+      context: ./chain-native-api-service
+      target: production
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      PORT: 8000
+      CORS_ALLOWED_ORIGINS: ${CORS_ALLOWED_ORIGINS:-*}
+      HTTP_TIMEOUT_MS: "30000"
+      RPC_TIMEOUT_MS: "30000"
+
+      # --- chain (autheo_2127-1) ---
+      ADDRESS_PREFIX: autheo
+      # same caveat as the indexer: this is the base denom, not "THEO"
+      TOKEN_SYMBOL: aauth
+      NATIVE_RPC_HTTP_URL: http://${CHAIN_NODE_IP}:26657      # Tendermint RPC
+      SWAGGER_HTTP_HOST: http://${CHAIN_NODE_IP}:1317         # Cosmos REST/LCD
+      VALIDATORS: ""
+      EXCLUDING_VALIDATORS: ""
+
+      # --- infra ---
+      DATABASE_URL: *database_url
+      REDIS_URL: redis://:${REDIS_PASSWORD}@redis:6379
+      RABBITMQ_URL: amqp://${RABBITMQ_USER:-autheo}:${RABBITMQ_PASSWORD}@rabbitmq:5672
+
+      # --- staking / logging ---
+      TTL_TIME_FOR_REWARDS: "4"
+      LOG_LEVEL: ${LOG_LEVEL:-info}
+      LOG_TO_FILE: "false"
+    ports:
+      - "${API_HOST_PORT:-8000}:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
+    healthcheck:
+      test:
+        - CMD
+        - node
+        - -e
+        - "require('http').get('http://127.0.0.1:8000/api/health',r=>process.exit(r.statusCode===200?0:1)).on('error',()=>process.exit(1))"
+      interval: 20s
+      timeout: 5s
+      retries: 6
+      start_period: 30s
+    logging: *default-logging
+
+  # --------------------------------------------------------------- Frontend --
+  # CRA build served by nginx. IMPORTANT: REACT_APP_* values are baked in at
+  # BUILD time from chain-validator-frontend/.env — they are not runtime env.
+  # Change that file and rebuild (`docker compose build frontend`) to repoint
+  # the app; setting them here would have no effect.
+  frontend:
+    build:
+      context: ./chain-validator-frontend
+      target: runner
+    restart: unless-stopped
+    ports:
+      - "${FRONTEND_HOST_PORT:-3001}:3001"
+    depends_on:
+      api:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q -O /dev/null http://127.0.0.1:3001/ || exit 1"]
+      interval: 20s
+      timeout: 5s
+      retries: 6
+      start_period: 15s
+    logging: *default-logging
+
+volumes:
+  postgres-data:
+  redis-data:
+  rabbitmq-data:

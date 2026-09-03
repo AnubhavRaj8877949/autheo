@@ -1,0 +1,78 @@
+import * as express from "express";
+import BlockService from "./block.service";
+import { Request, Response } from "express";
+import * as Helpers from "../../services/index";
+import { Controller } from "../../interfaces/index";
+import {
+  getBlockDetailsValidation,
+  getBlocksValidation,
+} from "./block.validation";
+
+const setResponse = Helpers.responseHelper;
+
+class BlockController implements Controller {
+  public router = express.Router();
+
+  constructor() {
+    this.initializeRoutes();
+  }
+
+  private initializeRoutes() {
+    this.router
+      .get("", getBlocksValidation, this.getAllBlock)
+      .get(
+        "/detail/:blockIdentity",
+        getBlockDetailsValidation,
+        this.getBlockDetails,
+      )
+      .get("/latest", this.getLatestBlock);
+  }
+
+  private getAllBlock = async (request: Request, response: Response) => {
+    if (request.query.order === "undefined") {
+      request.query.order = "desc";
+    }
+    if (
+      request.query.filterBy === "undefined" ||
+      (request.query.filterBy !== "newest" &&
+        request.query.filterBy !== "oldest")
+    ) {
+      request.query.filterBy = "newest";
+    }
+    const data: any = {
+      page: request.query?.page ? Number(request.query?.page) : 1,
+      limit: !request.query?.limit ? 10 : Number(request.query?.limit),
+      order: request.query?.order ?? "desc",
+      filterBy: request.query?.filterBy ?? "newest",
+    };
+
+    const res = await BlockService.getAllLatestBlock(data);
+
+    if (res.error) {
+      return setResponse.error(response, res);
+    }
+    return setResponse.success(response, res);
+  };
+
+  private getBlockDetails = async (request: Request, response: Response) => {
+    const blockDetails = await BlockService.getBlockDetails(
+      request.params?.blockIdentity as string,
+    );
+    if (blockDetails.error) {
+      return setResponse.error(response, blockDetails);
+    }
+    return setResponse.success(response, blockDetails);
+  };
+
+  private getLatestBlock = async (_request: Request, response: Response) => {
+    const blocks = await BlockService.getLatestBlock();
+
+    if (blocks.error) {
+      return setResponse.error(response, blocks);
+    }
+
+    return setResponse.success(response, blocks);
+  };
+}
+
+export default BlockController;

@@ -1,0 +1,30 @@
+@import "../../../_mixins.scss";
+@import "../../../_var.scss";
+
+.headerButton {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  @media (max-width: 767px) {
+    margin-bottom: 10px;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .common_header {
+    padding-block: 20px;
+
+  }
+
+  button {
+    width: 94px;
+
+    @media (max-width: 767px) {
+      width: 74px;
+      height: 30px;
+    }
+  }
+}

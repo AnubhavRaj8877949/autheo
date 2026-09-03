@@ -1,0 +1,22 @@
+include:
+  project: blockchain/gitlab-workflows
+  file: blockchain-app.gitlab-ci.yml
+  ref: testnetv2
+
+variables:
+  ECR_REPO_NAME: "testnetv2-native-api-blockmaze"
+
+pipeline_started:
+  extends: .pipeline_started
+
+sonar_scan:
+  extends: .sonar_scan
+
+docker_build_push:
+  extends: .docker_build_push
+
+gitops_image_update:
+  extends: .gitops_image_update
+
+
+

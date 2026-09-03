@@ -1,0 +1,523 @@
+.com_tooltip {
+  position: relative;
+  margin-top: 10px;
+}
+
+.com_tooltip button {
+  position: absolute;
+  left: 117px;
+  top: -4px;
+  z-index: 999;
+}
+
+/* .common-wrapper__amount input {
+  padding-right: 90px !important;
+} */
+.stakingInputs {
+  display: flex;
+  align-items: first baseline;
+  flex-direction: column;
+}
+
+.stakingInputs .labelTexts {
+  width: 180px;
+}
+
+.stake-amount-input-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.stake-amount-input-wrapper .input-suffix {
+  position: absolute;
+  right: 16px;
+  top: 59px;
+  color: var(--theme-text-primary);
+  font-size: 15px;
+  font-weight: 500;
+  pointer-events: none;
+}
+
+.min-required-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--theme-bg-input);
+  border: 1px solid var(--theme-border-primary);
+  border-radius: 10px;
+  padding: 16px;
+  margin-top: 10px;
+  margin-bottom: 24px;
+}
+
+.min-required-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.min-required-label {
+  font-size: 13px;
+  color: var(--theme-text-secondary);
+  opacity: 0.7;
+  text-align: left;
+}
+
+.min-required-value {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--theme-text-primary);
+  text-align: left;
+}
+
+.why-btn {
+  color: var(--brand-primary);
+  font-size: 15px;
+  font-weight: 600;
+  text-decoration: underline;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.why-btn:hover {
+  opacity: 0.8;
+}
+
+.commission-header-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 24px;
+  margin-bottom: 16px;
+  width: 100%;
+}
+
+.learn-more-btn {
+  background: transparent;
+  border: 1px solid var(--theme-border-primary);
+  color: var(--theme-text-primary);
+  border-radius: 16px;
+  padding: 6px 14px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.learn-more-btn:hover {
+  background: var(--surface-elevated);
+  border-color: var(--theme-text-secondary);
+}
+
+.on-chain-info-box {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  background: var(--surface-raised);
+  border: 1px solid var(--theme-border-primary);
+  border-radius: 10px;
+  padding: 16px;
+  margin-top: 24px;
+  margin-bottom: 24px;
+}
+
+.info-icon-span {
+  color: var(--theme-text-secondary);
+  display: flex;
+  align-items: center;
+  opacity: 0.7;
+}
+
+.info-text {
+  font-size: 14px;
+  color: var(--theme-text-secondary);
+  line-height: 1.4;
+  opacity: 0.8;
+  text-align: left;
+}
+
+
+/* ------------------------------------------------------------------
+   LICENSE VERIFICATION STEP
+   ------------------------------------------------------------------
+   Uses the same wrapper, field and button primitives as the existing
+   onboarding steps; only the step-specific layout lives here.
+   ------------------------------------------------------------------ */
+.license-step__intro {
+  font-size: 14px !important;
+  line-height: 1.55 !important;
+  color: var(--theme-text-secondary) !important;
+  margin: -8px 0 24px !important;
+  max-width: 56ch;
+}
+
+.license-step__field {
+  margin-bottom: 16px;
+}
+
+/* License IDs are long, dashed hex - a monospace field makes them far easier
+   to read back and spot a mistyped character. */
+.license-step__field .MuiInputBase-input {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  letter-spacing: 0.02em;
+}
+
+.license-step__banner {
+  align-items: flex-start;
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.license-step__banner-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.license-step__banner-title {
+  font-weight: 600;
+  color: var(--theme-text-primary);
+}
+
+.license-step__banner-body {
+  color: var(--theme-text-secondary);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+/* Status dot: spins while we are waiting, settles when confirmed. Shape and
+   copy both change, so the state never depends on colour alone. */
+.license-step__indicator {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  margin-top: 3px;
+  border-radius: 50%;
+}
+
+.license-step__indicator--pending {
+  border: 2px solid var(--status-info);
+  border-top-color: transparent;
+  animation: license-spin 0.9s linear infinite;
+}
+
+.license-step__indicator--success {
+  background: var(--status-success);
+  box-shadow: 0 0 0 3px var(--status-success-soft);
+}
+
+.license-step__indicator--error {
+  background: var(--status-error);
+  border-radius: 2px;
+}
+
+@keyframes license-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.license-step__footnote {
+  display: block;
+  margin-top: 20px !important;
+  font-size: 12px !important;
+  color: var(--theme-text-muted) !important;
+  text-align: center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .license-step__indicator--pending {
+    animation-duration: 0.01ms;
+    animation-iteration-count: 1;
+  }
+}
+
+/* TEMPORARY MOCK — REMOVE BEFORE PRODUCTION.
+   Marks the mocked license step so it can never be mistaken for a real
+   verification, while staying quiet enough not to disrupt the flow. */
+.license-step__footnote--mock {
+  color: var(--status-warning) !important;
+  opacity: 0.85;
+}
+
+
+/* ------------------------------------------------------------------
+   ONBOARDING PAGE SHELL
+   ------------------------------------------------------------------
+   The forms read best in a single narrow column, but the choice screen
+   puts two cards side by side and was being squeezed to ~250px each,
+   which wrapped almost every line of card copy.
+   ------------------------------------------------------------------ */
+.setup-validator-shell {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.setup-validator-shell--wide {
+  max-width: 940px;
+}
+
+/* ------------------------------------------------------------------
+   ONBOARDING MODE CHOICE  (Create New vs Migrate Existing)
+   ------------------------------------------------------------------
+   Layout only - the cards themselves reuse `.vo-card` from
+   ValidatorOnboarding.scss so both choice surfaces match.
+   ------------------------------------------------------------------ */
+/* Two comfortable columns once there is room; a single column below that. */
+.onboarding-choice .vo-card-grid {
+  gap: 20px;
+}
+
+@media (min-width: 760px) {
+  .onboarding-choice .vo-card-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 759px) {
+  .onboarding-choice .vo-card-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.onboarding-choice__intro {
+  font-size: 14px !important;
+  line-height: 1.55 !important;
+  color: var(--theme-text-secondary) !important;
+  margin: -8px 0 20px !important;
+  max-width: 60ch;
+}
+
+.onboarding-choice__card {
+  font: inherit;
+  color: inherit;
+  gap: 14px;
+  padding: 24px;
+}
+
+.onboarding-choice__card .vo-card__title {
+  font-size: 17px;
+}
+
+.onboarding-choice__card .vo-card__subtitle {
+  margin: 0;
+}
+
+.onboarding-choice__card .vo-card__list {
+  gap: 10px;
+}
+
+.onboarding-choice__card .vo-card__item {
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.onboarding-choice__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-lg);
+  background: var(--brand-primary-soft);
+  border: 1px solid var(--brand-primary-border);
+  flex-shrink: 0;
+}
+
+.onboarding-choice__icon svg {
+  width: 18px;
+  height: 18px;
+}
+
+.onboarding-choice__cta {
+  margin-top: auto;
+  padding-top: 4px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--brand-primary-text);
+}
+
+/* ------------------------------------------------------------------
+   MIGRATE EXISTING VALIDATOR
+   ------------------------------------------------------------------ */
+.migrate-step__intro {
+  font-size: 14px !important;
+  line-height: 1.55 !important;
+  color: var(--theme-text-secondary) !important;
+  margin: 0 0 24px !important;
+  max-width: 60ch;
+}
+
+.migrate-step__field {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.migrate-step__label {
+  margin: 0 0 8px;
+  font-size: 12px;
+  color: var(--theme-text-secondary);
+}
+
+.migrate-step__help {
+  display: block;
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.45;
+  color: var(--text-muted);
+}
+
+.migrate-step__help--error {
+  color: var(--status-error);
+}
+
+/* The native input is replaced by the dropzone / file chip below it. */
+.migrate-step__file-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.migrate-step__dropzone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  width: 100%;
+  padding: var(--space-6);
+  border: 1px dashed var(--border-default);
+  border-radius: var(--radius-lg);
+  background: var(--surface-elevated);
+  cursor: pointer;
+  transition: border-color var(--duration-fast) var(--ease-out),
+    background var(--duration-fast) var(--ease-out);
+}
+
+.migrate-step__dropzone:hover:not(:disabled) {
+  border-color: var(--brand-primary-border);
+  background: var(--brand-primary-soft);
+}
+
+.migrate-step__dropzone:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.migrate-step__dropzone-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--brand-primary-text);
+}
+
+.migrate-step__dropzone-hint {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+/* Selected file */
+.migrate-step__file {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-lg);
+  background: var(--surface-elevated);
+}
+
+.migrate-step__file-meta {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.migrate-step__file-name {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.migrate-step__file-size {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.migrate-step__file-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-shrink: 0;
+}
+
+.migrate-step__file-action {
+  background: transparent;
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-pill);
+  color: var(--text-primary);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 5px 12px;
+  cursor: pointer;
+  transition: border-color var(--duration-fast) var(--ease-out),
+    color var(--duration-fast) var(--ease-out);
+}
+
+.migrate-step__file-action:hover {
+  border-color: var(--brand-primary-border);
+  color: var(--brand-primary-text);
+}
+
+.migrate-step__file-action--remove {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
+  width: 28px;
+  height: 28px;
+}
+
+.migrate-step__file-action--remove:hover {
+  border-color: var(--status-error);
+  color: var(--status-error);
+}
+
+.migrate-step__file-action--remove svg {
+  width: 12px;
+  height: 12px;
+}
+
+/* Password show/hide. A text toggle rather than an icon: it states the action
+   outright, and needs no new asset. */
+.migrate-step__reveal {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: transparent;
+  border: 0;
+  padding: 0;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--brand-primary-text);
+  cursor: pointer;
+}
+
+.migrate-step__reveal:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 480px) {
+  .migrate-step__file {
+    flex-wrap: wrap;
+  }
+}

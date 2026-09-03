@@ -1,0 +1,70 @@
+.disabledlinks {
+  display: inline-flex;
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: auto;
+  align-items: center;
+  vertical-align: middle;
+}
+
+.disabledlinks > a,
+.disabledlinks a.bonds-btns {
+  pointer-events: none;
+}
+
+.notDiabled {
+  display: inline-flex;
+  /* opacity: 0.5; */
+  /* cursor: not-allowed; */
+  /* pointer-events: none; */
+  align-items: center;
+  vertical-align: middle;
+}
+
+.bond-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+}
+
+@media (max-width: 600px) {
+  .bond-actions {
+    gap: 8px;
+  }
+}
+
+.bnd_timer .title_bnd {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.bnd_timer .title_bnd span {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.bnd_timer .title_bnd h4 {
+  /* background-color: #121212; */
+  padding: 10px;
+  border-radius: 7px;
+  border: 1px solid var(--theme-border-primary);
+  font-size: 14px;
+  width: 48px;
+  text-align: center;
+}
+
+.bnd_timer .title_bnd > div {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  position: relative;
+  padding-right: 25px;
+}
+
+.bnd_timer .title_bnd > div > button {
+  position: absolute;
+  top: -10px;
+  right: 0px;
+}

@@ -1,0 +1,882 @@
+@import "./assets/_var.scss";
+@import "./styles/_autheo-tokens.scss";
+@import "./styles/_autheo-components.scss";
+
+/* ========================================
+   GLOBAL THEMED SURFACES
+   ----------------------------------------
+   Theme-agnostic. Colour comes from the Autheo tokens, so a single
+   ruleset serves both the dark (default) and light surfaces instead of
+   the duplicated per-theme accent overrides this file used to carry.
+   Component-level styling lives in styles/_autheo-components.scss.
+   ======================================== */
+
+/* Layout chrome */
+.header,
+.mobileresponsive,
+.drawerCustom .headerWrapper,
+.drawerCustom .header {
+  background-color: var(--surface-base) !important;
+}
+
+.MuiDrawer-paper {
+  background-color: var(--surface-raised) !important;
+  border-right: 1px solid var(--border-subtle);
+}
+
+.MuiContainer-root {
+  background-color: transparent !important;
+}
+
+.open-icon {
+  color: var(--text-primary) !important;
+}
+
+/* Typography */
+.MuiTypography-root {
+  color: var(--text-primary);
+}
+
+.MuiTypography-body2,
+p {
+  color: var(--text-secondary);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--text-primary);
+}
+
+/* Tables */
+.MuiTableHead-root,
+.MuiTableHead-root .MuiTableCell-root {
+  background-color: var(--surface-elevated) !important;
+}
+
+.MuiTableHead-root .MuiTableCell-root,
+.MuiTableHead-root .MuiTableCell-root span,
+.MuiTableHead-root .MuiTableCell-root p {
+  color: var(--text-secondary) !important;
+}
+
+.MuiTableHead-root .MuiTableCell-root {
+  border-bottom: 1px solid var(--border-default) !important;
+}
+
+.MuiTableBody-root {
+  background-color: var(--surface-raised) !important;
+}
+
+/* Zebra striping is a very low-opacity brand tint rather than a second
+   grey, which keeps long validator/transaction tables readable. */
+.MuiTableBody-root .MuiTableRow-root:nth-of-type(even) {
+  background-color: var(--autheo-teal-a04) !important;
+}
+
+.MuiTableBody-root .MuiTableCell-root {
+  color: var(--text-primary) !important;
+  border-bottom: 1px solid var(--border-subtle) !important;
+}
+
+.MuiTableBody-root .MuiTableRow-root:hover,
+.MuiTableRow-root:hover {
+  background-color: var(--theme-bg-table-row-hover) !important;
+}
+
+/* Cards */
+.vaildator-card__main {
+  h5 {
+    color: var(--text-secondary) !important;
+  }
+
+  h4 {
+    color: var(--text-primary) !important;
+  }
+}
+
+/* Wallet connection modal */
+.connectionAttempt .MuiPaper-root {
+  background-color: var(--surface-raised) !important;
+  color: var(--text-primary) !important;
+}
+
+.connectionAttempt_btn_inner {
+  background-color: var(--surface-elevated) !important;
+  color: var(--text-primary) !important;
+
+  &:hover {
+    background-color: var(--brand-primary-soft) !important;
+    box-shadow: inset 0 0 0 1px var(--brand-primary-border);
+  }
+
+  button {
+    color: var(--text-primary) !important;
+  }
+}
+
+/* Icons inherit the current text colour so they follow the theme */
+.headerWrapper svg path,
+.header svg path {
+  fill: var(--text-primary);
+}
+
+.headermetaBtn svg path,
+.btns svg path {
+  stroke: var(--brand-on-primary) !important;
+}
+
+.headermetaBtn svg,
+.headermetaBtn svg path {
+  fill: transparent !important;
+}
+
+/* The official Autheo wordmark ships in brand teal and must never be
+   recoloured, inverted or filtered. */
+.headerWrapper .logo,
+.app-footer .logo,
+img.logo {
+  filter: none !important;
+}
+
+/* Theme toggle */
+.theme-toggle-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid var(--border-default);
+  cursor: pointer;
+  transition: all var(--duration-base) var(--ease-out);
+  background-color: transparent;
+  color: var(--text-secondary);
+
+  &:hover {
+    background-color: var(--brand-primary-soft);
+    border-color: var(--brand-primary-border);
+    color: var(--brand-primary-text);
+  }
+
+  svg {
+    width: 22px;
+    height: 22px;
+    transition: transform var(--duration-base) var(--ease-out);
+  }
+
+  &:hover svg {
+    transform: rotate(15deg);
+  }
+}
+
+.MuiBox-root {
+  color: var(--text-primary);
+}
+
+.MuiBox-root[class*="StatItem"] {
+  background-color: var(--surface-raised) !important;
+  border-color: var(--border-default) !important;
+}
+
+/* Autofill */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-text-fill-color: var(--text-primary) !important;
+  -webkit-box-shadow: 0 0 0 1000px var(--surface-elevated) inset !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+.copy-btn svg path {
+  stroke: var(--text-primary) !important;
+}
+
+.copy-btn:hover svg path {
+  stroke: var(--brand-primary-text) !important;
+}
+
+/* ========================================
+   END GLOBAL THEMED SURFACES
+   ======================================== */
+
+// common
+
+// .custom-divider {
+//   margin: 20px 0 15px;
+//   border-color: $secondaryColor;
+// }
+
+// .primary-btn,
+// .outline-btn {
+//   border-radius: 15px;
+//   font-weight: 500;
+//   font-size: 20px;
+//   line-height: 24px;
+//   padding: 20px;
+//   display: inline-flex;
+//   justify-content: center;
+//   align-items: center;
+//   cursor: pointer;
+//   transition: all 0.25s linear;
+//   @media (max-width: 767px) {
+//     font-size: 16px;
+//     padding: 12px;
+//   }
+// }
+
+// .primary-btn {
+//   background: $baseColor;
+//   border: 1px solid $baseColor;
+//   color: $white;
+//   svg {
+//     path {
+//       fill: $white;
+//       transition: all 0.25s linear;
+//     }
+//   }
+
+//   &:hover {
+//     background-color: transparent;
+//     color: $baseColor;
+
+//     svg {
+//       path {
+//         transition: all 0.25s linear;
+//         fill: $baseColor;
+//       }
+//     }
+//   }
+// }
+
+// .outline-btn {
+//   background: $baseColor-light;
+//   border: 1px solid $baseColor;
+//   color: $baseColor;
+
+//   svg {
+//     path {
+//       transition: all 0.25s linear;
+//     }
+//   }
+//   &:hover {
+//     background-color: transparent;
+//     border-color: $white;
+//     color: $white;
+
+//     svg {
+//       path {
+//         transition: all 0.25s linear;
+//         fill: $white;
+//       }
+//     }
+//   }
+// }
+
+// .common-table {
+//   background: $secondaryColor;
+//   border-radius: 22px;
+//   padding-bottom: 35px;
+
+//   h3 {
+//     font-size: 22px;
+//     padding: 30px;
+//     padding-top: 37px;
+
+//     @media (max-width: 767px) {
+//       font-size: 16px;
+//       padding: 20px;
+//     }
+//   }
+// }
+
+// .id-wrap {
+//   display: flex;
+//   align-items: center;
+
+//   &__icon {
+//     width: 46px;
+//     height: 46px;
+//     border-radius: 8px;
+//     margin-right: 25px;
+//     display: flex;
+//     align-items: center;
+//     justify-content: center;
+//     background: var(--brand-primary-soft-strong);
+//     font-weight: 700;
+//     font-size: 18px;
+//     color: $baseColor-2;
+
+//     @media (max-width: 767px) {
+//       width: 35px;
+//       height: 35px;
+//       font-size: 16px;
+//     }
+
+//     &--mr-0 {
+//       margin-right: 0;
+//     }
+//   }
+// }
+// .btn-icon {
+//   display: inline-block;
+//   margin-right: 15px;
+//   line-height: 0;
+// }
+
+// .sidebar-logo {
+//   justify-content: center;
+//   border-bottom: 1px solid $black;
+//   padding: 14px 50px;
+// }
+
+// .icon-wrap {
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   width: 58px;
+//   height: 58px;
+//   border-radius: 50%;
+//   flex-shrink: 0;
+//   @media (max-width: 1680px) {
+//     width: 45px;
+//     height: 45px;
+//   }
+//   &.firstbg {
+//     background: var(--brand-secondary-soft);
+//   }
+
+//   &.secondbg {
+//     background: var(--brand-primary-soft-strong);
+//   }
+
+//   &.thirdbg {
+//     background: var(--brand-primary-soft-strong);
+//   }
+
+//   &.fourthbg {
+//     background: var(--status-warning-soft);
+//   }
+// }
+
+// .total-supply {
+//   max-width: 150px;
+//   white-space: nowrap;
+//   overflow: hidden;
+//   text-overflow: ellipsis;
+//   text-overflow: ellipsis;
+
+// }
+
+.srchInput {
+  display: flex;
+  justify-content: space-between;
+
+  input {
+    background: transparent;
+    border: 0;
+    color: var(--text-primary);
+    outline: unset;
+    width: 100%;
+  }
+}
+
+.swal2-container {
+  backdrop-filter: blur(10px);
+}
+
+* {
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+  font-family: var(--font-sans) !important;
+}
+
+@property --gradient-angle {
+  syntax: "<angle>";
+  initial-value: 90deg;
+  inherits: false;
+}
+
+:root {
+  /* Decorative ramp used by the animated conic borders below.
+     Retinted to the Autheo teal/gold range. */
+  --clr-card: rgba(0, 254, 217, 0.35);
+  --clr-1: var(--autheo-teal);
+  --clr-2: var(--autheo-gold);
+  --clr-3: var(--autheo-teal-dark) 0deg;
+  --clr-4: var(--autheo-teal-deep);
+  --clr-5: var(--autheo-gold-deep) 120deg;
+  --clr-6: var(--autheo-gold-pale);
+}
+
+:root {
+  --theme-gradients-main: conic-gradient(
+      from 180deg,
+      var(--autheo-teal),
+      var(--autheo-teal-dark) 90deg,
+      var(--autheo-gold) 200deg,
+      var(--autheo-teal-deep) 290deg,
+      var(--autheo-teal) 360deg
+    ),
+    linear-gradient(0deg, rgba(11, 12, 23, 0.25), rgba(11, 12, 23, 0.25));
+  --searchBg: linear-gradient(
+    157.79deg,
+    rgba(16, 17, 31, 0.6) -0.65%,
+    rgba(11, 12, 23, 0.9) 99.59%
+  );
+}
+
+.bugSubButton {
+  position: fixed;
+  // left: -57px;
+  right: -57px;
+  top: 30%;
+  z-index: 999;
+  max-width: max-content;
+  width: 100%;
+  rotate: 90deg;
+
+  button {
+    box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.3),
+      0px 2px 8px rgba(255, 255, 255, 0.2);
+    transition: box-shadow 0.3s ease-in-out, transform 0.2s ease-in-out;
+    border-radius: 0 0 15px 15px !important;
+
+    &:hover {
+      box-shadow: 0px 6px 15px rgba(255, 255, 255, 0.5),
+        0px 3px 12px rgba(255, 255, 255, 0.3);
+      transform: translateY(-2px); // Slight lift on hover
+    }
+
+    &::before {
+      border-radius: 0 0 15px 15px !important;
+    }
+  }
+}
+
+.headermetaBtn,
+.Mui-selected,
+.notDiabled a,
+.MuiButton-root,
+.editbutton,
+.swal2-confirm,
+.view-all {
+  white-space: nowrap;
+  position: relative;
+  display: flex;
+  gap: var(--space-2);
+  align-items: center;
+  justify-content: center;
+  padding: 12.5px var(--space-5);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
+  background-color: var(--surface-elevated);
+  text-decoration: none;
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-pill);
+  overflow: hidden;
+  cursor: pointer;
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.45;
+  }
+}
+
+@keyframes rotate {
+  0% {
+    --gradient-angle: 0deg;
+  }
+
+  100% {
+    --gradient-angle: 360deg;
+  }
+}
+
+.viewAllBtn {
+  height: 41px;
+  min-width: 130px;
+  display: flex;
+  justify-content: center;
+  font-weight: var(--font-weight-medium);
+}
+
+.MuiButton-root {
+  font-weight: var(--font-weight-medium);
+}
+
+.MuiPaginationItem-root {
+
+  &::before,
+  &::after {
+    content: none !important;
+  }
+}
+
+/* Selected tab — targets the public MUI class, not a generated hash. */
+.MuiTab-root.Mui-selected {
+  background-color: var(--brand-primary-soft-strong) !important;
+  color: var(--brand-primary-text) !important;
+  font-weight: var(--font-weight-semibold);
+}
+
+.valAddress {
+  min-width: 184px;
+
+  &:hover {
+    color: var(--brand-primary-text);
+  }
+}
+
+.blockdd {
+  min-width: 150px;
+}
+
+.valadd {
+  min-width: 180px;
+}
+
+.blockdds {
+  min-width: 140px;
+  display: inline-block;
+}
+
+.lottieIcon {
+  svg {
+    width: 300px !important;
+  }
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-background-clip: text;
+  // -webkit-text-fill-color: #ffffff;
+  transition: background-color 5000s ease-in-out 0s;
+  // box-shadow: inset 0 0 20px 20px #121212;
+}
+
+.MuiOutlinedInput-notchedOutline {
+  border-color: transparent !important;
+  border: 0 !important;
+}
+
+.css-igs3ac {
+  border: 0 !important;
+}
+
+.title_warp {
+  h6 {
+    align-items: center;
+    display: flex;
+    white-space: nowrap !important;
+  }
+}
+
+.connectionAttempt {
+  .MuiPaper-root {
+    white-space: nowrap;
+    position: relative;
+    display: inline-block;
+    padding: 12.5px 20px 40px 20px !important;
+    font-size: var(--font-size-body);
+    font-weight: var(--font-weight-semibold);
+    border: 0 !important;
+    color: var(--text-primary) !important;
+    text-decoration: none;
+    border: none;
+    border-radius: var(--radius-2xl);
+    overflow: hidden;
+    cursor: unset !important;
+  }
+
+  .connectionText {
+    white-space: normal;
+    word-break: break-word;
+  }
+
+  &_btn {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 40px;
+
+    // .Mui-disabled {
+    //   cursor: not-allowed !important;
+    //   opacity: 0.7;
+    // }
+    &_inner {
+      width: 100%;
+      display: flex;
+      align-items: flex-end;
+      align-items: center;
+      gap: var(--space-2);
+      padding: var(--space-4) var(--space-5);
+      border-radius: var(--radius-lg);
+      background: var(--surface-elevated);
+      border: 1px solid var(--border-subtle);
+      cursor: pointer;
+      transition: background var(--duration-fast) var(--ease-out),
+        border-color var(--duration-fast) var(--ease-out);
+
+      &:hover {
+        background: var(--brand-primary-soft);
+        border-color: var(--brand-primary-border);
+      }
+
+      img {
+        width: 35px !important;
+        border-radius: var(--radius-md);
+      }
+
+      button {
+        width: 100%;
+        background: transparent;
+        border: unset;
+        color: var(--text-primary);
+        cursor: pointer;
+
+        text-align: left;
+      }
+
+      p {
+        margin: 0;
+        font-weight: var(--font-weight-normal);
+        color: var(--text-secondary);
+      }
+
+      .install {
+        color: var(--status-success);
+      }
+
+      .uninstall {
+        color: var(--status-error);
+      }
+    }
+
+    .disabled {
+      cursor: not-allowed !important;
+      opacity: 0.7 !important;
+    }
+
+    .headermetaBtn {
+      width: 100% !important;
+      height: 40px !important;
+      padding: 12px 20px !important;
+      max-width: 250px;
+      text-transform: unset !important;
+    }
+  }
+
+  @keyframes rotate {
+    0% {
+      --gradient-angle: 0deg;
+    }
+
+    100% {
+      --gradient-angle: 360deg;
+    }
+  }
+}
+
+.infoIcon {
+  svg {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+.MuiTooltip-tooltip {
+  h6 {
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-normal);
+    line-height: var(--leading-snug);
+    color: var(--text-primary);
+  }
+}
+
+.top-right {
+  position: absolute !important;
+  top: 5px;
+  right: 5px;
+}
+
+.user-guide-link {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  justify-content: center;
+  margin-top: 29px;
+  font-size: 14px;
+  font-weight: 400;
+  background-color: var(--theme-bg-input) !important;
+  padding: 15px;
+  border-top: 1px solid var(--theme-border-input);
+  border-bottom-left-radius: 24px;
+  border-bottom-right-radius: 24px;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+
+  a {
+    cursor: pointer;
+    color: var(--theme-text-primary);
+    transition: color 0.3s ease;
+  }
+
+  svg {
+    transition: stroke 0.3s ease;
+  }
+
+  &:hover {
+    a {
+      color: var(--brand-primary-text) !important;
+    }
+
+    svg {
+      stroke: var(--brand-primary-text) !important;
+    }
+  }
+}
+
+.configureText {
+  white-space: normal !important;
+  text-align: center !important;
+  margin: 0 32px !important;
+  font-size: 20px !important;
+}
+
+.mt-15 {
+  margin-top: 15px !important;
+}
+
+.MuiInputLabel-asterisk {
+  color: var(--status-error);
+}
+
+.headerLeft {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.headerRight {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.MuiBox-login {
+  @media (max-width: 1440px) {
+    padding: 0 !important;
+  }
+}
+
+.headerWrapper {
+  @media (max-width: 1223px) {
+    .header {
+      align-items: flex-start !important;
+    }
+
+    .headerLeft {
+      flex-direction: column;
+    }
+
+    // .theme-toggle-btn {
+    //   display: none;
+    // }
+  }
+}
+
+.validator-active {
+  margin-left: 25px !important;
+}
+
+.errorMsg,
+.Mui-error {
+  color: var(--status-error) !important;
+  margin: 0 !important;
+  margin-top: var(--space-2) !important;
+  display: block;
+  font-size: var(--font-size-xs) !important;
+  font-weight: var(--font-weight-medium);
+  line-height: var(--leading-snug) !important;
+
+  &.errorMsg-login {
+    position: absolute;
+    bottom: -41px;
+    left: 0;
+  }
+}
+
+.box-login {
+  position: relative;
+
+  .highlight {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--brand-gradient-hairline);
+  }
+}
+
+.validatorTable {
+  border: none !important;
+
+  .MuiPaper-root {
+    border: none !important;
+  }
+}
+
+.MuiDrawer-paper {
+  .theme-toggle-btn {
+    display: none;
+  }
+}
+
+/* Status Colors */
+.status-success {
+  color: var(--status-success) !important;
+}
+
+.status-processing,
+.status-pending {
+  color: var(--status-warning) !important;
+}
+
+.status-failed {
+  color: var(--status-error) !important;
+}
+
+.css-7ry0lx {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  width: 800px !important;
+  max-width: calc(100vw - 32px);
+  border: 0px solid;
+  box-shadow: 0px 11px 15px -7px rgba(0, 0, 0, 0.2), 0px 24px 38px 3px rgba(0, 0, 0, 0.14), 0px 9px 46px 8px rgba(0, 0, 0, 0.12);
+  padding-top: 16px;
+  padding-left: 32px;
+  padding-right: 32px;
+  padding-bottom: 24px;
+  padding: 0px;
+}
+.MuiOutlinedInput-input {
+  padding: 11.5px 14px !important;
+}

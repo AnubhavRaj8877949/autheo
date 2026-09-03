@@ -1,0 +1,16 @@
+// ─────────────────────────────────────────────────────────────────────────────
+// Legacy SCSS colour aliases.
+//
+// Colour for this application lives in styles/_autheo-tokens.scss as CSS
+// custom properties. This file only survives because two older stylesheets
+// (`pages/TxDetails/index.scss`, `components/Common/Heading/heading.scss`)
+// still import it; each alias below points at an Autheo token.
+//
+// Do not add new variables here - use the tokens directly.
+// ─────────────────────────────────────────────────────────────────────────────
+
+$white: #ffffff;
+$black: #000000;
+
+$green: var(--status-success);
+$red: var(--status-error);

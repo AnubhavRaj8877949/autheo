@@ -1,0 +1,11 @@
+{
+  "methods": {
+    "Transfer": "Balance Transfer",
+    "Unbond": "Unbond",
+    "Stop Validator": "Stop Validator",
+    "Bond Extra": "Bond Extra",
+    "Bonded Amount": "Bonded Amount",
+    "Restart Validator": "Restart Validator",
+    "Unlocked Amount": "Unlocked Amount"
+  }
+}

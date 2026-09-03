@@ -1,0 +1,365 @@
+/* =====================================================================
+   AUTHEO DESIGN TOKENS
+   ---------------------------------------------------------------------
+   Single source of truth for the Autheo Validator visual language.
+   Brand values are taken from the official Autheo brand palette
+   (autheo.com): teal #00FED9, gold #F0B90B, "dazzle" ground #0B0C17,
+   Inter type family, Tailwind-derived scales.
+
+   Layers:
+     1. Brand constants  --autheo-*      never change per theme
+     2. Scales           --font-*, --space-*, --radius-*, --shadow-*
+     3. Semantic tokens  --brand-*, --status-*   theme aware
+     4. Legacy bridge    --theme-*        consumed by existing components
+
+   Components must consume layers 2-4. Never hardcode a brand colour.
+   ===================================================================== */
+
+/* ------------------------------------------------------------------
+   1. BRAND CONSTANTS
+   ------------------------------------------------------------------ */
+:root {
+  /* Autheo primary — network / signal teal */
+  --autheo-teal: #00fed9;
+  --autheo-teal-dark: #00d4b5;
+  --autheo-teal-mid: #00b89e;
+  --autheo-teal-deep: #00806f;
+  --autheo-teal-ink: #00705f;
+
+  /* Autheo secondary — value / rewards gold */
+  --autheo-gold: #f0b90b;
+  --autheo-gold-deep: #b8860b;
+  --autheo-gold-pale: #fbe7a1;
+
+  /* Autheo ground — "dazzle" */
+  --autheo-dazzle: #0b0c17;
+  --autheo-dazzle-raised: #10111f;
+  --autheo-dazzle-elevated: #171930;
+  --autheo-dazzle-overlay: #1a1c33;
+
+  /* Neutrals (zinc ramp, matches autheo.com) */
+  --autheo-zinc-50: #fafafa;
+  --autheo-zinc-100: #f4f4f5;
+  --autheo-zinc-200: #e4e4e7;
+  --autheo-zinc-300: #d4d4d8;
+  --autheo-zinc-400: #a1a1aa;
+  --autheo-zinc-500: #71717a;
+  --autheo-zinc-600: #52525b;
+  --autheo-zinc-700: #3f3f46;
+  --autheo-zinc-800: #27272a;
+  --autheo-zinc-900: #18181b;
+  --autheo-white: #ffffff;
+
+  /* Brand alpha ramps — used for tints, borders, focus rings, glows */
+  --autheo-teal-a04: rgba(0, 254, 217, 0.04);
+  --autheo-teal-a08: rgba(0, 254, 217, 0.08);
+  --autheo-teal-a15: rgba(0, 254, 217, 0.15);
+  --autheo-teal-a25: rgba(0, 254, 217, 0.25);
+  --autheo-teal-a40: rgba(0, 254, 217, 0.4);
+  --autheo-gold-a10: rgba(240, 185, 11, 0.1);
+  --autheo-gold-a25: rgba(240, 185, 11, 0.25);
+
+  /* ----------------------------------------------------------------
+     2a. TYPOGRAPHY SCALE
+     ---------------------------------------------------------------- */
+  --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: ui-monospace, "SFMono-Regular", Menlo, Monaco, Consolas,
+    "Liberation Mono", monospace;
+
+  --font-size-caption: 0.75rem; /* 12 */
+  --font-size-xs: 0.8125rem; /* 13 */
+  --font-size-sm: 0.875rem; /* 14 */
+  --font-size-body: 1rem; /* 16 */
+  --font-size-lg: 1.125rem; /* 18 */
+  --font-size-xl: 1.25rem; /* 20 */
+  --font-size-h4: 1.5rem; /* 24 */
+  --font-size-h3: 1.875rem; /* 30 */
+  --font-size-h2: 2.25rem; /* 36 */
+  --font-size-h1: 3rem; /* 48 */
+  --font-size-display: 3.75rem; /* 60 */
+
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-weight-extrabold: 800;
+
+  --leading-tight: 1.2;
+  --leading-snug: 1.375;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.625;
+
+  --tracking-tight: -0.02em;
+  --tracking-normal: 0em;
+  --tracking-wide: 0.025em;
+  --tracking-wider: 0.06em;
+  --tracking-widest: 0.12em;
+
+  /* ----------------------------------------------------------------
+     2b. SPACING SCALE  (4px base, Tailwind aligned)
+     ---------------------------------------------------------------- */
+  --space-0: 0;
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+  --space-24: 6rem;
+
+  /* ----------------------------------------------------------------
+     2c. RADIUS / BORDER / MOTION
+     ---------------------------------------------------------------- */
+  --radius-sm: 0.25rem;
+  --radius-md: 0.375rem;
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.75rem;
+  --radius-2xl: 1rem;
+  --radius-3xl: 1.5rem;
+  --radius-pill: 999px;
+
+  --border-width: 1px;
+
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --duration-fast: 0.15s;
+  --duration-base: 0.25s;
+  --duration-slow: 0.4s;
+}
+
+/* ------------------------------------------------------------------
+   3. SEMANTIC TOKENS — DARK (Autheo default surface)
+   ------------------------------------------------------------------
+   Applied to :root as well so the app renders in Autheo dark before
+   ThemeContext stamps data-theme.
+   ------------------------------------------------------------------ */
+:root,
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  /* Brand */
+  --brand-primary: var(--autheo-teal);
+  --brand-primary-strong: var(--autheo-teal-dark);
+  --brand-primary-text: var(--autheo-teal);
+  --brand-primary-soft: var(--autheo-teal-a08);
+  --brand-primary-soft-strong: var(--autheo-teal-a15);
+  --brand-primary-border: var(--autheo-teal-a25);
+  --brand-on-primary: #04241f;
+  --brand-focus-ring: var(--autheo-teal-a40);
+
+  --brand-secondary: var(--autheo-gold);
+  --brand-secondary-text: var(--autheo-gold);
+  --brand-secondary-soft: var(--autheo-gold-a10);
+  --brand-secondary-border: var(--autheo-gold-a25);
+  --brand-on-secondary: #241a00;
+
+  /* Signature Autheo gradients */
+  --brand-gradient: linear-gradient(
+    97deg,
+    var(--autheo-teal) 0%,
+    var(--autheo-teal-dark) 100%
+  );
+  --brand-gradient-subtle: linear-gradient(
+    97deg,
+    var(--autheo-teal-a15) 0%,
+    var(--autheo-teal-a04) 100%
+  );
+  --brand-gradient-hairline: linear-gradient(
+    to right,
+    transparent,
+    var(--autheo-teal),
+    transparent
+  );
+  --brand-glow: 0 0 0 1px var(--autheo-teal-a25),
+    0 8px 32px -8px rgba(0, 254, 217, 0.28);
+
+  /* Surfaces */
+  --surface-base: var(--autheo-dazzle);
+  --surface-raised: var(--autheo-dazzle-raised);
+  --surface-elevated: var(--autheo-dazzle-elevated);
+  --surface-overlay: var(--autheo-dazzle-overlay);
+  --surface-sunken: #07080f;
+  --surface-inverse: var(--autheo-white);
+
+  /* Borders */
+  --border-subtle: rgba(255, 255, 255, 0.07);
+  --border-default: var(--autheo-teal-a15);
+  --border-strong: var(--autheo-teal-a25);
+
+  /* Text */
+  --text-primary: var(--autheo-white);
+  --text-secondary: var(--autheo-zinc-400);
+  --text-tertiary: #c9c9d2;
+  --text-muted: var(--autheo-zinc-500);
+  --text-inverse: var(--autheo-dazzle);
+
+  /* Status */
+  --status-success: #34d399;
+  --status-success-soft: rgba(52, 211, 153, 0.12);
+  --status-warning: var(--autheo-gold);
+  --status-warning-soft: var(--autheo-gold-a10);
+  --status-error: #f87171;
+  --status-error-soft: rgba(248, 113, 113, 0.12);
+  --status-info: #7dd3fc;
+  --status-info-soft: rgba(125, 211, 252, 0.12);
+  --status-neutral: var(--autheo-zinc-400);
+  --status-neutral-soft: rgba(161, 161, 170, 0.12);
+
+  /* Metric-icon plates — a tinted plate with a brand glyph, so a dashboard
+     full of stat icons reads as one quiet system rather than a wall of
+     saturated brand discs. */
+  --icon-disc: var(--autheo-teal-a15);
+  --icon-disc-border: var(--autheo-teal-a25);
+  --icon-glyph: var(--autheo-teal);
+
+  /* Elevation */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.5);
+  --shadow-md: 0 4px 16px -4px rgba(0, 0, 0, 0.6);
+  --shadow-lg: 0 16px 48px -12px rgba(0, 0, 0, 0.7);
+  --shadow-modal: 0 32px 64px -16px rgba(0, 0, 0, 0.8);
+}
+
+/* ------------------------------------------------------------------
+   3b. SEMANTIC TOKENS — LIGHT
+   ------------------------------------------------------------------
+   Autheo is dark-first; the light surface keeps the same brand hues but
+   swaps to accessible ink variants (teal is far too bright for text on
+   white, so text/link accents drop to --autheo-teal-ink, 6:1 on white).
+   ------------------------------------------------------------------ */
+[data-theme="light"] {
+  color-scheme: light;
+
+  --brand-primary: var(--autheo-teal-dark);
+  --brand-primary-strong: var(--autheo-teal-mid);
+  --brand-primary-text: var(--autheo-teal-ink);
+  --brand-primary-soft: rgba(0, 212, 181, 0.1);
+  --brand-primary-soft-strong: rgba(0, 212, 181, 0.18);
+  --brand-primary-border: rgba(0, 128, 111, 0.35);
+  --brand-on-primary: var(--autheo-dazzle);
+  --brand-focus-ring: rgba(0, 128, 111, 0.4);
+
+  --brand-secondary: var(--autheo-gold-deep);
+  --brand-secondary-text: #8a6508;
+  --brand-secondary-soft: rgba(240, 185, 11, 0.14);
+  --brand-secondary-border: rgba(184, 134, 11, 0.35);
+  --brand-on-secondary: var(--autheo-dazzle);
+
+  --brand-gradient: linear-gradient(
+    97deg,
+    var(--autheo-teal-dark) 0%,
+    var(--autheo-teal-deep) 100%
+  );
+  --brand-gradient-subtle: linear-gradient(
+    97deg,
+    rgba(0, 212, 181, 0.16) 0%,
+    rgba(0, 212, 181, 0.04) 100%
+  );
+  --brand-gradient-hairline: linear-gradient(
+    to right,
+    transparent,
+    var(--autheo-teal-deep),
+    transparent
+  );
+  --brand-glow: 0 0 0 1px rgba(0, 128, 111, 0.25),
+    0 8px 24px -10px rgba(0, 128, 111, 0.3);
+
+  --surface-base: var(--autheo-white);
+  --surface-raised: #f7f9f9;
+  --surface-elevated: #eef3f2;
+  --surface-overlay: #e6edec;
+  --surface-sunken: #f1f4f4;
+  --surface-inverse: var(--autheo-dazzle);
+
+  --border-subtle: rgba(11, 12, 23, 0.07);
+  --border-default: #d8e2e0;
+  --border-strong: #b6c7c4;
+
+  --text-primary: var(--autheo-dazzle);
+  --text-secondary: #4b5563;
+  --text-tertiary: #595959;
+  --text-muted: #8a8a9a;
+  --text-inverse: var(--autheo-white);
+
+  --status-success: #067a55;
+  --status-success-soft: rgba(6, 122, 85, 0.1);
+  --status-warning: #9a6b00;
+  --status-warning-soft: rgba(154, 107, 0, 0.1);
+  --status-error: #c02626;
+  --status-error-soft: rgba(192, 38, 38, 0.1);
+  --status-info: #0d6f9e;
+  --status-info-soft: rgba(13, 111, 158, 0.1);
+  --status-neutral: #6b7280;
+  --status-neutral-soft: rgba(107, 114, 128, 0.1);
+
+  --icon-disc: rgba(0, 212, 181, 0.14);
+  --icon-disc-border: rgba(0, 128, 111, 0.3);
+  --icon-glyph: var(--autheo-teal-ink);
+
+  --shadow-sm: 0 1px 2px rgba(11, 12, 23, 0.06);
+  --shadow-md: 0 4px 16px -4px rgba(11, 12, 23, 0.1);
+  --shadow-lg: 0 16px 48px -12px rgba(11, 12, 23, 0.14);
+  --shadow-modal: 0 32px 64px -16px rgba(11, 12, 23, 0.18);
+}
+
+/* ------------------------------------------------------------------
+   4. LEGACY BRIDGE
+   ------------------------------------------------------------------
+   The application already consumes a --theme-* vocabulary across ~40
+   style modules. Rather than duplicating components, those names are
+   re-pointed at the Autheo semantic tokens above. Existing components
+   keep working and inherit the Autheo identity automatically.
+   ------------------------------------------------------------------ */
+:root,
+[data-theme="dark"],
+[data-theme="light"] {
+  --theme-bg-primary: var(--surface-base);
+  --theme-bg-secondary: var(--surface-raised);
+  --theme-bg-tertiary: var(--surface-elevated);
+  --theme-bg-card: var(--surface-raised);
+  --theme-bg-header: var(--surface-raised);
+  --theme-bg-sidebar: var(--surface-base);
+  --theme-bg-input: var(--surface-elevated);
+  --theme-bg-modal: var(--surface-raised);
+  --theme-bg-hover: var(--surface-overlay);
+  --theme-bg-table: var(--surface-raised);
+  --theme-bg-table-row-hover: var(--brand-primary-soft);
+  --theme-bg-cardProcess: var(--surface-raised);
+  --theme-bg-wallet-balance: var(--surface-sunken);
+
+  --theme-text-primary: var(--text-primary);
+  --theme-text-secondary: var(--text-secondary);
+  --theme-text-tertiary: var(--text-tertiary);
+  --theme-text-muted: var(--text-muted);
+  --theme-text-link: var(--text-secondary);
+  --theme-text-link-active: var(--text-primary);
+  --theme-text-link-hover: var(--brand-primary-text);
+
+  --theme-border-primary: var(--border-default);
+  --theme-border-secondary: var(--border-subtle);
+  --theme-border-input: var(--border-default);
+  --theme-border-cardProcess: var(--border-subtle);
+  --theme-border-card: var(--border-default);
+
+  --theme-shadow-card: var(--shadow-md);
+  --theme-shadow-modal: var(--shadow-modal);
+
+  --theme-icon-color: var(--text-primary);
+  --theme-icon-secondary: var(--text-secondary);
+
+  --theme-swal-bg: var(--surface-raised);
+  --theme-swal-border: var(--border-default);
+  --theme-swal-text: var(--text-secondary);
+
+  --theme-connection-btn-bg: var(--surface-elevated);
+  --theme-connection-btn-hover: var(--surface-overlay);
+
+  --theme-bg-footer: var(--surface-sunken);
+  --theme-text-footer-primary: var(--text-primary);
+  --theme-text-footer-secondary: var(--text-secondary);
+  --theme-border-footer: var(--border-subtle);
+}
