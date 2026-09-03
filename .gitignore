@@ -1,0 +1,24 @@
+# Compose secrets — real values live here, never commit.
+# Template is tracked as .env.compose.example.
+.env
+.env.*
+!.env.example
+!.env.compose.example
+
+# Local .env backups
+*.env.bak.*
+.env.bak.*
+
+# Dependencies / build output (sub-projects also ignore these)
+node_modules/
+build/
+dist/
+coverage/
+
+# Logs
+logs/
+*.log
+
+# Tooling caches
+.scannerwork/
+.eslintcache
