@@ -97,14 +97,20 @@ services:
   # the indexer's is the superset, so it is the single schema owner here.
   # Do NOT also run migrations from the api-service: it would fight over
   # _prisma_migrations. (Its runtime image has no prisma CLI anyway.)
+  # Deliberately does NOT reuse the indexer image. That image hardens itself
+  # (`chmod -R a-w` on node_modules/prisma, a homeless --system user), and the
+  # prisma CLI wants a writable HOME and cache to run. A plain node image with
+  # the schema mounted read-only keeps the migration step independent of how
+  # the app images are built. Version is pinned to the indexer's own prisma.
   migrate:
-    build:
-      context: ./chain-native-indexer
-      target: deps
+    image: node:22.17-alpine
+    working_dir: /work
+    volumes:
+      - ./chain-native-indexer/prisma:/work/prisma:ro
     command:
       - sh
       - -c
-      - "./node_modules/.bin/prisma migrate deploy --schema ./prisma/schema.prisma"
+      - "apk add --no-cache openssl >/dev/null && npx --yes prisma@5.22.0 migrate deploy --schema /work/prisma/schema.prisma"
     environment:
       DATABASE_URL: &database_url >-
         postgresql://${POSTGRES_USER:-autheo}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-native_indexer_autheo}?schema=public

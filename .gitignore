@@ -1,9 +1,6 @@
 # Compose secrets — real values live here, never commit.
 # Template is tracked as .env.compose.example.
-.env
-.env.*
-!.env.example
-!.env.compose.example
+
 
 # Local .env backups
 *.env.bak.*

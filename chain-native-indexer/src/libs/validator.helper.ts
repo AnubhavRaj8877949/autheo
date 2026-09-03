@@ -346,6 +346,7 @@ async function getValidatorsInfo(apiRes: AxiosInstance) {
 
     for (let i = 0; i < response?.data?.validators?.length; i++) {
       const validator = response.data.validators[i];
+       console.log(validator.length);
       const validatorOperatorAddress = validator.operator_address;
       const address = bech32.decode(validatorOperatorAddress);
       const validatorAddress = bech32.encode(
