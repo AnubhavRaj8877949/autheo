@@ -47,7 +47,7 @@ const Login = () => {
   const changeHandler = (e) => setMnemonics(e.target.value?.trim());
 
   const handleNode = async () => {
-    const allowInsecure = process.env.REACT_APP_ALLOW_INSECURE_NODE === "true";
+    const allowInsecure = "true";
     const trimmedNodeUrl = nodeUrl?.trim();
 
     const isValidUrl = trimmedNodeUrl
@@ -56,23 +56,23 @@ const Login = () => {
         : /^(https|wss):\/\//.test(trimmedNodeUrl)
       : false;
 
-    if (!trimmedNodeUrl) {
-      setNodeUrlValidErr(
-        allowInsecure
-          ? "Please enter a valid node URL starting with https://, http://, wss://, or ws://."
-          : "Only secure node URLs are allowed. Please use HTTPS or WSS."
-      );
-      return;
-    }
+    // if (!trimmedNodeUrl) {
+    //   setNodeUrlValidErr(
+    //     allowInsecure
+    //       ? "Please enter a valid node URL starting with https://, http://, wss://, or ws://."
+    //       : "Only secure node URLs are allowed. Please use HTTPS or WSS."
+    //   );
+    //   return;
+    // }
 
-    if (!isValidUrl) {
-      setNodeUrlValidErr(
-        allowInsecure
-          ? "Please enter a valid node URL starting with https://, http://, wss://, or ws://."
-          : "Only secure node URLs are allowed. Please use HTTPS or WSS."
-      );
-      return;
-    }
+    // if (!isValidUrl) {
+    //   setNodeUrlValidErr(
+    //     allowInsecure
+    //       ? "Please enter a valid node URL starting with https://, http://, wss://, or ws://."
+    //       : "Only secure node URLs are allowed. Please use HTTPS or WSS."
+    //   );
+    //   return;
+    // }
 
     setNodeUrlValidErr("");
 
